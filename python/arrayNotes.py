@@ -31,6 +31,23 @@ class LeftRightSum(object):
             
             print(f"left sum: {leftSum} right sum {rightSum}")
 
+    def fullSum(self,nums):
+        ans=[]
+        totalSum=sum(nums)
+        leftSum=0
+        rightSum=0
+
+        for idx, num in enumerate(nums):
+            if idx==0:
+                rightSum=totalSum-num
+            else:
+                rightSum-=num
+                leftSum+=nums[idx]
+            print(f"idx{idx} left sum: {leftSum} right sum {rightSum}")
+
+
+        #return ans        
+
 
 
 
@@ -40,4 +57,5 @@ class LeftRightSum(object):
 nums=[1,2,3,4,5,6]
 solution=LeftRightSum()
 #solution.sumFunction(nums)
-solution.itterativeFunction(nums)
+#solution.itterativeFunction(nums)
+solution.fullSum(nums)
