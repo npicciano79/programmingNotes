@@ -1,8 +1,8 @@
 
 
-class Solution(object):
+class LeftRightSum(object):
     #find sum of values to the left and right of indexed value
-    def leftrightSum(self,nums):
+    def sumFunction(self,nums):
         leftSum=0
         rightSum=0
 
@@ -17,11 +17,27 @@ class Solution(object):
         
         #return ans
 
+    def itterativeFunction(self,nums):
+        leftSum=0
+        rightSum=0
+
+        for idx, num in enumerate(nums):
+            #calculate left sum
+            for i in range(0,idx):
+                leftSum+=nums[i]
+            #calculate right sum
+            for i in range(idx+1,len(nums)):
+                rightSum+=nums[i]
+            
+            print(f"left sum: {leftSum} right sum {rightSum}")
+
+
 
 
 
 
 
 nums=[1,2,3,4,5,6]
-solution=Solution()
-solution.leftrightSum(nums)
+solution=LeftRightSum()
+#solution.sumFunction(nums)
+solution.itterativeFunction(nums)
