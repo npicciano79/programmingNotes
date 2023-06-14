@@ -1,0 +1,46 @@
+---Temporary tables 
+
+---can access temp tables multiple times, unlike cte, subquery 
+
+
+/*syntax
+
+CREATE TABLE #temp_employee(            'add # for temp table'
+    EmployeeId int,
+    JobTitle varchar(100),
+    Salary int
+)
+
+SELECT * 
+FROM #temp_employee;
+
+INSERT INTO #temp_employee VALUES(
+    '1001','HR','45000'
+)
+
+---takes all data from employeeSalary and enters into temp_employee
+INSERT INTO #temp_employee          
+SELECT *
+FROM SQLtutorial..EmployeeSalary
+
+
+CREATE TABLE #Temp_employee2(
+    Jobtitle varchar(50),
+    EmployeePerJob int, 
+    AvgAge int,
+    AvgSalary int
+)
+
+INSERT INTO #Temp_employee2(
+    SELECT JobTitle, COUNT(JobTitle), Avg(age), AVG(salary)
+    FROM SQLtutorial..employeeDemographics AS emp 
+    JOIN SQLtutorial..employeeSalary AS sal 
+    ON emp.employeeId= sal.EmployeeId
+    GROUP BY Jobtitle
+)
+
+SELECT *
+FROM #temp_employee2
+
+
+Source: https://www.youtube.com/watch?v=RF0LE3hYFrI Alex the analyst 
