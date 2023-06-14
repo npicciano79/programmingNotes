@@ -1,0 +1,20 @@
+---Partition by 
+---partition by: divides result set into partitions and performs computations on subsets of data
+
+/*syntax
+SELECT FirstName,LastName,Gender, Salary,
+        COUNT(Gender) OVER (PARTITION BY Gender)AS TotalGender
+FROM SQLtutorial..EmployeeDemographics AS dem 
+JOIN SQLtutorial...EmployeeSalary AS sal 
+ON dem.EmployeeId = sal.EmployeeId
+
+
+
+
+SELECT AVG(order_amount) OVER(PARTITION BY customer_id)AS order_amount,
+ROW_NUMBER() OVER(PARTITION BY Customercity
+       ORDER BY OrderAmount DESC) AS "Row Number", 
+       OrderAmount, 
+
+
+Source: https://www.youtube.com/watch?v=D6XNlTfglW4 alex the analyst 
