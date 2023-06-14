@@ -1,0 +1,120 @@
+Stored procedures
+---batch of statements grouped as a logical unit and stored in the database.
+---accepts the parameters and executes the T-sql statements in the procedure, 
+---returns the result set if any
+---can be used over network by mutliple users 
+
+____________________________________________________________
+---stored procedure with mysql
+
+DELIMITER //
+CREATE PROCEDURE us_customers ()
+BEGIN
+SELECT customer_id, first_name
+FROM Customers
+WHERE Country = 'USA';
+END //
+DELIMITER ;
+
+---postgreSql
+CREATE PROCEDURE us_customers ()
+LANGUAGE SQL
+AS $$
+SELECT customer_id, first_name
+FROM Customers
+WHERE Country = 'USA';
+$$;
+
+---SQL server
+CREATE PROCEDURE us_customers AS
+SELECT customer_id, first_name
+FROM Customers
+WHERE Country = 'USA';
+
+---oracle
+CREATE PROCEDURE us_customers
+AS res SYS_REFCURSOR;  
+BEGIN
+open res for
+SELECT customer_id, first_name
+FROM Customers
+WHERE country = 'USA';
+DBMS_SQL.RETURN_RESULT(res);
+END;
+
+
+
+_______________________________________________________
+/*syntax
+CREATE PROCEDURE TEST 
+AS 
+SELECT *
+FROM employeeDemographics;
+
+/*how to call
+EXEC TEST
+
+____________________________________________________________
+
+/*Example2
+---creates procedure creates temp table temp_employee
+CREATE PROCEDURE Temp_employee
+AS 
+    CREATE TABLE #temp_employee(
+    JobTitle varchar(100),
+    EmployeesPerJob int, 
+    AvgAge int, 
+    AvgSalary int
+    )
+
+---inserts data into temp table temp_employee
+Insert into #temp_employee
+SELECT JobTitle, COUNT(JobTitle), Avg(Age), AVG(Salary)
+FROM SQLtutorial..EmployeeDemographics AS emp 
+JOIN SQLtutorial..EmployeeSalary AS sal 
+ON emp.employeeId=sal.employeeId 
+GROUP BY JobTitle
+
+SELECT *
+FROM #temp_employee
+
+
+EXEC Temp_employee
+
+_______________________________________________________
+---alter stored procedure
+ALTER [dbo].[Temp_employee]
+@JobTitle nvarchar(100)
+AS 
+CREATE TABLE #temp_employee(
+    JobTitle varchar(100),
+    EmployeesPerJob int, 
+    AvgAge int, 
+    AvgSalary int
+
+)
+
+---alter data to include check on JobTitle
+Insert into #temp_employee
+SELECT JobTitle, COUNT(JobTitle), Avg(Age), AVG(Salary)
+FROM SQLtutorial..EmployeeDemographics AS emp 
+JOIN SQLtutorial..EmployeeSalary AS sal 
+    ON emp.employeeId=sal.employeeId 
+    WHERE JobTitle=@JobTitle
+GROUP BY JobTitle
+
+SELECT *
+FROM #temp_employee
+
+
+EXEC Temp_employee @JobTitle='Salesman'         'include parameter salesman'
+
+
+
+
+
+
+Source: https://www.youtube.com/watch?v=NrBJmtD0kEw&t=39s Alex the Analyst
+https://www.programiz.com/sql/stored-procedures
+https://www.simplilearn.com/tutorials/sql-tutorial/stored-procedure-in-sql
+
